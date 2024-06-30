@@ -24,6 +24,12 @@ const shopOrder = {
 
 // 일반 함수 (문/식)의 this vs. 화살표 함수 식의 this
 
+// type Item = {
+//   id:string,
+//   text:string,
+//   link:string
+// }
+
 const navigationMenu = {
   name: '글로벌 내비게이션',
   items: [
@@ -38,8 +44,4 @@ const navigationMenu = {
   },
 };
 
-navigationMenu.addItem({
-  id: 'link-l',
-  text: 'lycos',
-  lick: 'https://lycos.co.kr',
-});
+// TypeScript
