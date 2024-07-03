@@ -1,21 +1,12 @@
-
-
 ## 멋쟁이 사자처럼
----
-### 코어 자바스크립트 학습 저장소
 
 ---
 
-학습이 완료된 항목은 체크박스로 표시됩니다.
+### ajax
 
-### Basic
+---
 
-- [ ] Code Structure [바로가기](https://www.naver.com)
-- [ ] Variable [바로가기](https://www.naver.com)
-- [ ] Strict Mode [바로가기](https://www.naver.com)
-
-
-
-
-
-
+비동기 통신에 대해 학습합니다.
+`jsonplaceholder`의 서버 데이터를 받아와 카드 템플릿으로 구현합니다.
+CRUD가 정상적으로 통신되는지 확인하고,
+카드의 생성, 삭제 기능을 제어합니다.
