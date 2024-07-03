@@ -1,8 +1,9 @@
+import { getNode } from "./getNode.js";
+import { isString } from "../utils/type.js";
 
 
 
-
-function bindEvent(node,type,handler){
+export function bindEvent(node,type,handler){
   
   if(isString(node)) node = getNode(node);
 
