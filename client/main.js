@@ -1,104 +1,99 @@
-
-
-
-
-// named export (이름 내보내기)
-
-// default export (기본 내보내기) 무조건 1개 
-
-// rename, alias
-
+import data from './data/data.js';
 import { 
-  attr, 
+  copy, 
+  shake, 
   getNode, 
-  insertLast,
-  clearContents, 
-} from "./lib/index.js";
+  addClass,
+  showAlert,
+  getRandom, 
+  insertLast, 
+  removeClass,
+  clearContents,
+  isNumericString,
+ } from './lib/index.js';
+
+// [phase-1]
+// 1. 주접 떨기 버튼을 클릭 하는 함수
+//    - 주접 떨기 버튼 가져오기
+//    - 이벤트 연결하기 addEventListener('click')
+
+// 2. input 값 가져오기
+//    - input.value
+
+// 3. data함수에서 주접 1개 꺼내기
+//    - data(name)
+//    - getRandom()
+
+// 4. pick 항목 랜더링하기
+
+// [phase-2]
+// 1. 아무 값도 입력 받지 못했을 때 예외처리 (콘솔 출력)
+
+const submit = getNode('#submit');
+const nameField = getNode('#nameField');
+const result = getNode('.result');
 
 
 
+function handleSubmit(e) {
+  e.preventDefault();
 
-function phase1(){
-  // 1. input value 값 가져오기 (first,second)
-  //    - input 선택하기 
-  //    - input에게 input 이벤트를 걸어준다.
-  //    - input.value 값을 가져온다.
-
-  // 2. 숫자 더하기
-  //    - 숫자 형변환 
-
-  // 3. result 내용 비우기
-  //    - clearContents
-
-  const first = getNode('#firstNumber');
-  const second = getNode('#secondNumber');
-  const result = getNode('.result');
-  const clear = getNode('#clear');
+  const name = nameField.value;
+  const list = data(name);
+  const pick = list[getRandom(list.length)];
 
 
-  function handleInput(){
-    const firstValue = Number(first.value);
-    const secondValue = +second.value;
-    const total = firstValue + secondValue;
-
-    clearContents(result)
+  if (!name || name.replace(/\s*/g,'') === '') {
     
-    insertLast(result,total);
+    showAlert('.alert-error','공백은 허용하지 않습니다.')
+    
+    shake('#nameField').restart();
+
+    return;
   }
 
-  function handleClear(e){
-    e.preventDefault();
+
+  
+  if(!isNumericString(name)){
     
-    clearContents(first);
-    clearContents(second);
-    result.textContent = '-';
+    showAlert('.alert-error','제대로된 이름을 입력해 주세요.');
+
+    shake('#nameField').restart();
+
+    return;
   }
 
-  first.addEventListener('input',handleInput);
-  second.addEventListener('input',handleInput);
-  clear.addEventListener('click',handleClear);
-
+  clearContents(result);
+  insertLast(result, pick);
 }
 
 
-phase1()
 
+function handleCopy(){
+  const text = result.textContent;
 
+  if(nameField.value){
 
-
-
-function phase2(){
-  const calculator = getNode('.calculator');
-  const result = getNode('.result');
-  const clear = getNode('#clear');
-  const numberInputs = [...document.querySelectorAll('input:not(#clear)')]
-  
-  
-  
-  function handleInput(){
-  
-    const total = numberInputs.reduce((acc,cur)=> acc + Number(cur.value),0)
-    
-    clearContents(result);
-    insertLast(result,total);
+    copy(text)
+    .then(()=>{
+      showAlert('.alert-success','클립보드 복사 완료!');
+    })
   }
-  
-  
-  
-  
-  
-  function handleClear(e){
-    e.preventDefault();
-    numberInputs.forEach(clearContents);
-    result.textContent = '-';
-  }
-  
-  
-  
-  calculator.addEventListener('input',handleInput);
-  clear.addEventListener('click',handleClear);
-  
 }
+
+submit.addEventListener('click', handleSubmit);
+result.addEventListener('click', handleCopy);
+
+
+
+
+
+
+
+
+
+
+
 
 
 
