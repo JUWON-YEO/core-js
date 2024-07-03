@@ -1,21 +1,20 @@
-
-
 ## 멋쟁이 사자처럼
----
-### 코어 자바스크립트 학습 저장소
 
 ---
 
-학습이 완료된 항목은 체크박스로 표시됩니다.
+### webComponent
 
-### Basic
+---
 
-- [ ] Code Structure [바로가기](https://www.naver.com)
-- [ ] Variable [바로가기](https://www.naver.com)
-- [ ] Strict Mode [바로가기](https://www.naver.com)
+웹컴포넌트를 학습합니다.
 
+TodoList의 기능을 구현합니다.
 
+index.html 설명
 
-
-
-
+- `create` 버튼을 통해 리스트를 생성합니다.
+- 텍스트를 클릭하여 수정할 수 있습니다.
+- `delete` 버튼을 클릭하여 리스트를 삭제할 수 있습니다.
+- 텍스트 입력 후 `enter` 클릭 시 자동으로 다음 리스트로 커서가 이동합니다.
+- `checked` 된 리스트는 `blur` 처리가 됩니다.
+- 모든 기능을 스토리지에 저장하여 데이터가 휘발되지 않도록 합니다.
