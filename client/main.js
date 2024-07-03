@@ -1,88 +1,173 @@
-import data from './data/data.js';
+/* global gsap */
+
+
 import { 
-  copy, 
-  shake, 
-  getNode, 
-  addClass,
-  showAlert,
-  getRandom, 
-  insertLast, 
-  removeClass,
+  tiger,
+  delayP,
+  getNode,
+  changeColor,
   clearContents,
-  isNumericString,
- } from './lib/index.js';
-
-// [phase-1]
-// 1. 주접 떨기 버튼을 클릭 하는 함수
-//    - 주접 떨기 버튼 가져오기
-//    - 이벤트 연결하기 addEventListener('click')
-
-// 2. input 값 가져오기
-//    - input.value
-
-// 3. data함수에서 주접 1개 꺼내기
-//    - data(name)
-//    - getRandom()
-
-// 4. pick 항목 랜더링하기
-
-// [phase-2]
-// 1. 아무 값도 입력 받지 못했을 때 예외처리 (콘솔 출력)
-
-const submit = getNode('#submit');
-const nameField = getNode('#nameField');
-const result = getNode('.result');
+  renderSpinner,
+  renderUserCard,
+  renderEmptyCard,
+ } from "./lib/index.js";
 
 
 
-function handleSubmit(e) {
-  e.preventDefault();
 
-  const name = nameField.value;
-  const list = data(name);
-  const pick = list[getRandom(list.length)];
+const ENDPOINT = 'http://localhost:3000/users'
 
 
-  if (!name || name.replace(/\s*/g,'') === '') {
-    
-    showAlert('.alert-error','공백은 허용하지 않습니다.')
-    
-    shake('#nameField').restart();
 
-    return;
-  }
+// 1. user 데이터 fetch 해주세요.
+//    - tiger.get
 
 
+// 2. fetch 데이터의 유저 이름만 콘솔 출력
+//     - 데이터 유형 파악  ex) 객체,배열,숫자,문자
+//     - 적당한 메서드 사용하기 
+
+// 3. 유저 이름 화면에 렌더링 
+
+const userCardInner = getNode('.user-card-inner');
+
+async function renderUserList(){
+
+
+  // 로딩 스피너 렌더링
+  renderSpinner(userCardInner)
+ 
+  // await delayP(2000);
   
-  if(!isNumericString(name)){
-    
-    showAlert('.alert-error','제대로된 이름을 입력해 주세요.');
 
-    shake('#nameField').restart();
+  try{
 
-    return;
-  }
-
-  clearContents(result);
-  insertLast(result, pick);
-}
-
-
-
-function handleCopy(){
-  const text = result.textContent;
-
-  if(nameField.value){
-
-    copy(text)
-    .then(()=>{
-      showAlert('.alert-success','클립보드 복사 완료!');
+    gsap.to('.loadingSpinner',{
+      opacity:0,
+      onComplete(){
+        this._targets[0].remove()
+      }
     })
+    // getNode('.loadingSpinner').remove()
+
+    const response = await tiger.get(ENDPOINT);
+
+    const data = response.data;
+  
+    data.forEach(user => renderUserCard(userCardInner,user))
+  
+    changeColor('.user-card');
+  
+    gsap.from('.user-card',{
+      x:-100,
+      opacity:0,
+      stagger: {
+        amount: 1,
+        from:'start'
+      }
+    })
+  
+  }
+  catch{
+    console.error('에러가 발생했습니다!');
+    renderEmptyCard(userCardInner)
   }
 }
 
-submit.addEventListener('click', handleSubmit);
-result.addEventListener('click', handleCopy);
+renderUserList()
+
+
+
+function handleDeleteCard(e){
+  const button = e.target.closest('button');
+
+  if( !button ) return;
+
+  const article = button.closest('article');
+  const index = article.dataset.index.slice(5);
+
+  tiger.delete(`${ENDPOINT}/${index}`)
+  .then(()=>{
+    
+    // 요청 보내고 렌더링하기
+    clearContents(userCardInner)
+    renderUserList()
+
+  })
+}
+
+
+userCardInner.addEventListener('click',handleDeleteCard)
+
+
+
+
+
+const createButton = getNode('.create');
+const cancelButton = getNode('.cancel');
+const doneButton = getNode('.done');
+
+
+
+
+function handleCreate(){
+  // gsap.to('.pop',{autoAlpha:1})  
+  createButton.classList.add('open') 
+}
+
+
+function handleCancel(e){
+  e.stopPropagation();
+  // gsap.to('.pop',{autoAlpha:0})
+  createButton.classList.remove('open');
+}
+
+function handleDone(e){
+  e.preventDefault();
+  
+  const name = getNode('#nameField').value;
+  const email = getNode('#emailField').value;
+  const website = getNode('#siteField').value;
+
+
+  tiger.post(ENDPOINT,{ name, email, website })
+  .then(()=>{
+    // 1. 팝업 닫기
+    // gsap.to('.pop',{autoAlpha:0})
+    createButton.classList.remove('open');
+
+    // 2. 카드 컨텐츠 비우기 
+    clearContents(userCardInner);
+
+    // 3. 유저카드 렌더링하기
+    renderUserList();
+  })
+
+
+}
+
+
+
+createButton.addEventListener('click',handleCreate)
+cancelButton.addEventListener('click',handleCancel)
+doneButton.addEventListener('click',handleDone)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
