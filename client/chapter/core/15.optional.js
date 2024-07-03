@@ -2,13 +2,14 @@
 /* Optional Chaining          */
 /* -------------------------- */
 
+
 const portableFan = {
   maker: 'fromB',
   brand: 'FD221',
   type: 'neckband',
   photo: {
     static: 'https://bit.ly/3OS50UD',
-    animate: 'https://bit.ly/3P8646q',
+    animate: 'https://bit.ly/3P8646q'
   },
   // getFullName() {
   //   return `${this.brand}, ${this.maker}`;
@@ -25,70 +26,136 @@ const portableFan = {
 //   }
 // }
 
+
 // 위 구문을 논리곱 연산자를 사용한 방식으로 변경해봅니다.
-portableFan && portableFan.photos && portableFan.photos.animate;
+
+// portableFan && portableFan.photos && portableFan.photos.animate
+
+
 
 // 위 구문을 옵셔널 체이닝을 사용한 구문으로 변경해봅니다.
 
-portableFan.photos?.animate;
+portableFan.photos?.animate
+
 
 // 메서드 사용 시, 옵셔널 체이닝을 사용해봅니다.
+
+
 const fullName = portableFan.getFullName?.();
 
-console.log(fullName);
+console.log( fullName );
+
+
 
 // 객체의 프로퍼티 접근 시, 옵셔널 체이닝을 사용해봅니다.
 
-// sync(동기)  - 로직대로 흘러가는거 하나가 끝나면 그 다음일을 처리 - 세탁기 1개
-// async(비동기) - 여러가지 일을 같이 하는거  - 세탁기 여러 대 web API 가 도와줌
 
-// console.log(1);
-// console.log(2);
-// setTimeout(function () {
-//   //웹 브라우저가 제공
-//   console.log(3);
-// }, 1000);
-// console.log(4);
-// console.log(5);
 
-//js는 싱글스레드라 오래걸리는 연산에서는 시간을 보장할수없다
 
+// sync(동기)  async(비동기) web
+
+
+
+
+
+
+
+
+
+// function fibonacci(n){
+//   if(n <= 0) return 0;
+//   if(n <= 2) return 1;
+//   return fibonacci(n-1) + fibonacci(n-2)
+// }
+
+// fibonacci(45)
 const button = document.querySelector('.my-button');
 
-const id = setTimeout(() => {
-  const template = /* html */ `
-    <button type="button" class="my-button">my-utton</button>
-  `;
-  document.body.insertAdjacentHTML('beforeend', template);
-}, 3000);
+const id = setTimeout(()=>{
+  
+  const template = /* html */`
+    <button type="button" class="my-button">my-button</button>
+  `
+  
+  document.body.insertAdjacentHTML('beforeend',template)
 
-clearTimeout(id);
+},1000)
 
-button?.addEventListener('click', () => {
+// clearTimeout(id)
+
+
+button?.addEventListener('click',()=>{
   console.log('clicked~!');
-});
+})
+
+
+// 연산 오래걸리는 작업
+
 
 let count = 0;
 
-// const id2 = setInterval(() => {
-//   console.log(++count);
+const id2 = setInterval(()=>{
+  console.log(++count);
 
-//   document.querySelector('.first').style.transform =
-//     `translateY(${count}px) rotate(${count}deg)`;
+  document.querySelector('.second').style.transform = `translateY(${count}px) rotate(${count}deg)`
 
-//   if (count >= 500) {
-//     clearInterval(id2);
-//   }
-// }, 10);
+  if(count >= 500){
+    clearInterval(id2)
+  }
+},10)
+
+
 
 let counter = 0;
-function animation() {
-  console.log(++counter);
-  const id = requestAnimationFrame(animation);
 
-  if (counter >= 100) {
-    cancelAnimationFrame(id);
+function animation(){
+  
+  console.log( ++counter );
+
+   document.querySelector('.first').style.transform = `translateY(${counter}px) rotate(${counter}deg)`
+
+  const id = requestAnimationFrame(animation)
+  
+  if(counter >= 500){
+    cancelAnimationFrame(id)
   }
 }
 
-animation();
+
+
+animation()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
