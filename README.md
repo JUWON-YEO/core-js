@@ -1,21 +1,11 @@
-
-
 ## 멋쟁이 사자처럼
----
-### 코어 자바스크립트 학습 저장소
 
 ---
 
-학습이 완료된 항목은 체크박스로 표시됩니다.
+### 토이프로젝트 - 주접생성기
 
-### Basic
+---
 
-- [ ] Code Structure [바로가기](https://www.naver.com)
-- [ ] Variable [바로가기](https://www.naver.com)
-- [ ] Strict Mode [바로가기](https://www.naver.com)
-
-
-
-
-
-
+이름을 입력하면 저장된 데이터를 가져와 주접을 생성합니다.
+정확한 이름을 입력받는 Validation
+복사 버튼을 클릭하면 클립보드 복사 기능을 구현합니다.
